@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,6 +23,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static  final int ADD_NOTE_REQUEST = 1;
+    public static  final int EDIT_NOTE_REQUEST = 2;
     private NotesViewMModel notesViewMModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,AddingNoteActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddEditNoteActivity.class);
                 startActivityForResult(intent,ADD_NOTE_REQUEST);
             }
         });
@@ -70,22 +69,46 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(recyclerView);
 
-
+        adapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Notes notes) {
+                Intent intent = new Intent(MainActivity.this, AddEditNoteActivity.class);
+                intent.putExtra(AddEditNoteActivity.EXTRA_ID,notes.getId());
+                intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, notes.getTitle());
+                intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION,notes.getDescription());
+                intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY,notes.getPriority());
+                startActivityForResult(intent,EDIT_NOTE_REQUEST);
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK){
-            String title = data.getStringExtra(AddingNoteActivity.EXTRA_TITLE);
-            String description = data.getStringExtra(AddingNoteActivity.EXTRA_DESCRIPTION);
-            int priority = data.getIntExtra(AddingNoteActivity.EXTRA_PRIORITY,1);
+            String title = data.getStringExtra(AddEditNoteActivity.EXTRA_TITLE);
+            String description = data.getStringExtra(AddEditNoteActivity.EXTRA_DESCRIPTION);
+            int priority = data.getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY,1);
 
             Notes note = new Notes(title,description,priority);
             notesViewMModel.insert(note);
 
             Toast.makeText(this, "Notes Saved", Toast.LENGTH_SHORT).show();
-        }else {
+        }else if(requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK){
+            int id = data.getIntExtra(AddEditNoteActivity.EXTRA_ID,-1);
+            if(id==-1) {
+                Toast.makeText(MainActivity.this, "Note Can't be updated", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String title = data.getStringExtra(AddEditNoteActivity.EXTRA_TITLE);
+            String description = data.getStringExtra(AddEditNoteActivity.EXTRA_DESCRIPTION);
+            int priority = data.getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY,1);
+
+            Notes notes = new Notes(title,description,priority);
+            notes.setId(id);
+            notesViewMModel.update(notes);
+            Toast.makeText(this,"Note updated",Toast.LENGTH_SHORT).show();
+        }else{
             Toast.makeText(this,"Note Not Saved",Toast.LENGTH_SHORT).show();
         }
     }

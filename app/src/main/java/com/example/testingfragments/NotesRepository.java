@@ -21,13 +21,14 @@ public class NotesRepository {
         allNotes = noteDao.getAllNotes();
     }
     public void insert(Notes notes){
+
         new InsertNotesAsyncTask(noteDao).execute(notes);
     }
     public void update(Notes notes){
         new UpdateNotesAsyncTask(noteDao).execute(notes);
     }
     public void delete(Notes notes){
-        new DeleteAllNotesAsyncTask(noteDao).execute(notes);
+        new DeleteNotesAsyncTask(noteDao).execute(notes);
     }
     public void deleteAllNotes()
     {

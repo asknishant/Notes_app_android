@@ -3,6 +3,7 @@ package com.example.testingfragments;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import java.util.List;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NotesHolder> {
 
     private List<Notes> notes = new ArrayList<>();
+    private OnItemClickListener listener;
 
     @NonNull
     @Override
@@ -36,26 +38,43 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NotesHolder> {
         return notes.size();
     }
 
-    public void setNotes(List<Notes> notes){
+    public void setNotes(List<Notes> notes) {
         this.notes = notes;
         notifyDataSetChanged();
     }
 
-    public Notes getNoteAt(int position){
+    public Notes getNoteAt(int position) {
         return notes.get(position);
     }
 
-     static class NotesHolder extends RecyclerView.ViewHolder {
+    class NotesHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
         private TextView textViewDescription;
         private TextView textViewPriority;
 
 
-            NotesHolder(@NonNull View itemView) {
+        NotesHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.text_view_title);
             textViewDescription = itemView.findViewById(R.id.text_view_description);
             textViewPriority = itemView.findViewById(R.id.text_view_priority);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION)
+                        listener.onItemClick(notes.get(position));
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Notes notes);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }
