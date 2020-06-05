@@ -18,13 +18,13 @@ A new Android application in java. :grinning:
     <td><img src='Project%20Screenshots/3.png'></td>
   </tr>
   <tr>
-    <th>Add a new note,with priority and set a reminder</th>
+    <th>Add a new note with priority.r</th>
+    <th>Save Note</th>
     <th></th>
-    <th>Result</th>
   </tr>
   <tr>
-    <td><img src='Project%20Screenshots/4.png'></td>
-    <td><img src='Project%20Screenshots/5.png'></td>
+    <td><img src='Project%20Screenshots/6.png'></td>
+    <td><img src='Project%20Screenshots/7.png'></td>
     
   </tr>
 </table> 
