@@ -25,7 +25,7 @@ A new Android application in java. :grinning:
   <tr>
     <td><img src='Project%20Screenshots/4.png'></td>
     <td><img src='Project%20Screenshots/5.png'></td>
-    <td><img src='Project%20Screenshots/6.png'></td>
+    
   </tr>
 </table> 
 
