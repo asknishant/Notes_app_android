@@ -8,34 +8,43 @@
     android:layout_marginEnd="8dp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:padding="8dp">
+
         <TextView
             android:id="@+id/text_view_priority"
-            android:layout_width="wrap_content"
+            android:layout_width="37dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:fontFamily="cursive"
             android:text="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#926BED" />
 
         <TextView
             android:id="@+id/text_view_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="353dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="18dp"
+            android:textSize="25sp"
+            android:layout_toStartOf="@id/text_view_priority"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="Title"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:maxLines="1"
-            android:layout_toStartOf="@id/text_view_priority"
-            android:layout_alignParentStart="true"
-            android:ellipsize="end"/>
+            android:textColor="#926BED" />
 
-            <TextView
-                android:id="@+id/text_view_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_title"
-                android:text="Description"/>
+        <TextView
+            android:id="@+id/text_view_description"
+            android:layout_width="379dp"
+            android:layout_height="50dp"
+            android:textSize="25sp"
+            android:layout_below="@id/text_view_title"
+            android:fontFamily="cursive"
+            android:text="Description"
+            android:textColor="#456BED" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
